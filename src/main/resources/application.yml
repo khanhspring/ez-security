@@ -1,0 +1,27 @@
+ez:
+  security:
+    basic-auth:
+      enable: true
+      users:
+        - { username: 'admin', password: '123', authorities: 'ADMIN' }
+        - { username: 'admin1', password: '123', authorities: 'ADMIN1' }
+      secured-paths:
+        - { pattern: '/test/ping1', authorities: 'ADMIN' }
+        - { pattern: '/test/ping2', permitAll: true }
+        - { pattern: '/test/ping3', authorities: 'ADMIN1' }
+    oauth2:
+      enable: true
+      secured-paths:
+        - { pattern: '/o/ping1', authorities: 'PERMISSION_ADMIN' }
+        - { pattern: '/o/ping2', permitAll: true }
+        - { pattern: '/o/ping3', authorities: 'PERMISSION_ADMIN1' }
+      authority-claim-name: permissions
+      authority-prefix: PERMISSION_
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://maillaez-dev.us.auth0.com/.well-known/jwks.json
+          issuer-uri: https://maillaez-dev.us.auth0.com/
